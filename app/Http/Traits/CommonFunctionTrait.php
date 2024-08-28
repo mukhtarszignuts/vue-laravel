@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Traits;
+
+use Illuminate\Support\Carbon;
+
+trait CommonFunctionTrait
+{
+    public function formatNumber($number)
+    {
+        if ($number >= 1_000_000) {
+            return number_format($number / 1_000_000, 1) . 'M';
+        } elseif ($number >= 1_000) {
+            return number_format($number / 1_000, 1) . 'k';
+        } else {
+            return $number;
+        }
+    }
+
+    public function calculateHours($startDate, $endDate)
+    {
+        $start = Carbon::createFromFormat('Y/m/d', $startDate);
+        $end = Carbon::createFromFormat('Y/m/d', $endDate);
+
+        // Calculate the difference in hours
+        return $start->diffInHours($end);
+    }
+
+    public function calculateDaysLeft($endDate)
+    {
+        $end = Carbon::createFromFormat('Y/m/d', $endDate)->startOfDay();
+        $today = Carbon::now()->startOfDay(); // Current date and time
+
+        // Calculate the difference in days from today
+        return $today->diffInDays($end, false); // Set false to get negative value if endDate is in the past
+    }
+}
