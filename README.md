@@ -1,6 +1,9 @@
 
 ## Project Setup
 
+## php version 8.1 
+## node version v20.11.1
+
 ```sh
 npm install
 ```
