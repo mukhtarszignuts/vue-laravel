@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             'is_owner'  => 1,
             'company_id'=> null,
         ]);
+
+       
         
         $this->call([
             CompanySeeder::class,
@@ -32,6 +34,16 @@ class DatabaseSeeder extends Seeder
             SubCategorySeeder::class,
             ProductSeeder::class,
             ProjectSeeder::class
+        ]);
+        
+        \App\Models\User::factory()->create([
+            'name'      => 'manager',
+            'email'     => 'manager@gmail.com',
+            'password'  => bcrypt('Test@123'),
+            'role'      => 'M',
+            'status'    => 'A',
+            'is_owner'  => 1,
+            'company_id'=> 1,
         ]);
     }
 }

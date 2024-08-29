@@ -34,4 +34,32 @@ trait CommonFunctionTrait
         // Calculate the difference in days from today
         return $today->diffInDays($end, false); // Set false to get negative value if endDate is in the past
     }
+
+    /**
+     * events type
+     */
+    public function eventType($type)
+    {
+        switch ($type) {
+            case 'P':
+                return 'Personal';
+                break;
+            case 'B':
+                return 'Business';
+                break;
+            case 'F':
+                return 'Family';
+                break;
+            case 'H':
+                return 'Holiday';
+                break;
+            case 'E':
+                return 'ETC';
+                break;
+
+            default:
+                return '';
+                break;
+        }
+    }
 }

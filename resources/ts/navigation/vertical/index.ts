@@ -37,6 +37,11 @@ const adminNavItems: VerticalNavItems = [
     to: { name: 'admin-projects-list' },
     icon: { icon: 'tabler-layout-grid' },
   },
+  {
+    title: 'Calendar',
+    to: { name: 'calendar' },
+    icon: { icon: 'tabler-calendar' },
+  },
 ];
 
 const managerNavItems: VerticalNavItems = [

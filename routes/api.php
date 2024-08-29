@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProjectController;
 use App\Http\Controllers\API\SubCategoryController;
@@ -127,6 +128,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         //Project Route
         Route::prefix('project')->group(function () {
             Route::controller(ProjectController::class)->group(function () {
+                Route::post('list', 'index');
+                Route::get('/{id}', 'show');
+                Route::post('create', 'store');
+                Route::post('update', 'update');
+                Route::get('delete/{id}', 'delete');
+            });
+        });
+
+        //Event Route
+        Route::prefix('event')->group(function () {
+            Route::controller(EventController::class)->group(function () {
                 Route::post('list', 'index');
                 Route::get('/{id}', 'show');
                 Route::post('create', 'store');
