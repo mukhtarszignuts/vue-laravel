@@ -5,10 +5,13 @@ import CompanyProfile from "@/components/company/CompanyProfile.vue";
 import CompanyProject from "@/components/company/CompanyProject.vue";
 import AddEditCompanyDialog from "@/components/dialogs/AddEditCompanyDialog.vue";
 import useUserData from "@/composable/useFetchUserData";
+import { useChatStore } from "@/pages/chat/useChatStore";
 import axios from "@/plugins/axios";
 import headerBG from "@images/pages/user-profile-header-bg.png";
 import { useHead } from "@vueuse/head";
 import moment from "moment";
+
+const chatStore = useChatStore();
 
 interface DashboardItem {
   title: string;
@@ -184,6 +187,7 @@ onMounted(() => {
     }
   }
   getDashboardDetails();
+  console.log("chatstore", chatStore.profileUser?.fullName);
 });
 
 useHead({

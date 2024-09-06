@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Events;
+use App\Models\Message;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class EventsSeeder extends Seeder
+class MessageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +15,9 @@ class EventsSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Events::truncate();
+        Message::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
-        Events::factory(5)->create();
+        Message::factory(5)->create();
     }
 }

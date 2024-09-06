@@ -35,7 +35,7 @@ class AuthController extends Controller
         }
 
         if($user->role==='M' && $user->company_id==null){
-            return error(__(`You don't have Company Plese Contect to Admin`));
+            return error(__("You don't have Company Plese Contect to Admin"));
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;

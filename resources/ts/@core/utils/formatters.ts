@@ -41,7 +41,7 @@ export const formatDateToMonthShort = (value: string, toTimeForCurrentDay = true
 
   if (toTimeForCurrentDay && isToday(date))
     formatting = { hour: 'numeric', minute: 'numeric' }
-
+  
   return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
 }
 

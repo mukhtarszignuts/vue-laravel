@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             SubCategorySeeder::class,
             ProductSeeder::class,
-            ProjectSeeder::class
+            ProjectSeeder::class,
+            EventsSeeder::class
         ]);
         
         \App\Models\User::factory()->create([

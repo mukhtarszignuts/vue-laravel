@@ -57,12 +57,25 @@ class User extends Authenticatable
         if ($this->image) {
             return asset('storage/profile_images/' . $this->image);
         } else {
-            return $this->images[0]->image_url??null;
+            return $this->images[0]->image_url ?? null;
         }
     }
 
     // company 
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Company::class);
+    }
+
+    // Message 
+    public function sendMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    // Message 
+    public function receiveMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
     }
 }

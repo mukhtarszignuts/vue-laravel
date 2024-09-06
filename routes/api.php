@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ChatController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\EventController;
@@ -83,7 +84,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
                 Route::post('bulk-delete', 'bulkDelete');
             });
         });
-        
+
         // Company route
         Route::prefix('company')->group(function () {
             Route::controller(CompanyController::class)->group(function () {
@@ -144,6 +145,21 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
                 Route::post('create', 'store');
                 Route::post('update', 'update');
                 Route::get('delete/{id}', 'delete');
+            });
+        });
+
+        // Chat 
+        // Route::post('chat', 'chats');
+        Route::prefix('chats')->group(function () {
+            Route::controller(ChatController::class)->group(function () {
+                Route::post('list', 'chats');
+                Route::get('/{id}', 'show');
+                Route::post('create', 'store');
+                Route::post('update', 'update');
+                Route::get('delete/{id}', 'delete');
+                Route::post('chat/{id}', 'chat');
+                Route::get('message-seen/{id}', 'seenMessage');
+                Route::get('chat-clear/{id}', 'chatClear');
             });
         });
     });
