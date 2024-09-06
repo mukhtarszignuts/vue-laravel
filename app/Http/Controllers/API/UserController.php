@@ -206,4 +206,10 @@ class UserController extends Controller
 
         return ok('User Bluck Delete Successfully..!');
     }
+
+    public function saveToken(Request $request)
+    {
+        auth()->user()->update(['device_token'=>$request->token]);
+        return ok('Token saved successfully..!');
+    }
 }

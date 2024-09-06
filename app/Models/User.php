@@ -28,6 +28,7 @@ class User extends Authenticatable
         'image',
         'company_id',
         'is_owner',
+        'device_token',
     ];
 
     /**

@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::post('update', 'update');
             Route::get('delete/{id}', 'delete');
             Route::post('bulk-delete', 'bulkDelete');
+            Route::post('token-save', 'saveToken');
         });
     });
 

@@ -6,11 +6,12 @@ use App\Models\User;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Traits\CommonFunctionTrait;
 use App\Http\Traits\ListingApiTrait;
 
 class ChatController extends Controller
 {
-    use ListingApiTrait;
+    use ListingApiTrait, CommonFunctionTrait;
     /**
      * All Chats Fetch   
      */
@@ -131,9 +132,6 @@ class ChatController extends Controller
         ]);
 
         //! Need to check count 
-
-
-
         $count = User::where('id', $request->sender_id)->whereHas('sendMessages')->first();
         $data = [];
 
@@ -162,6 +160,12 @@ class ChatController extends Controller
             $data['chat'] = $chat;
         }
         $data['msg'] = $msg;
+
+        // Send Push Notification 
+        if ($message->sender->device_token) {
+                $ftoken = $message->sender->device_token ?? 'f5oP07qKOZKn8BQJOTQEbW:APA91bH0FIUbmZRtvZi_B2ZTvTcVciXteuflj2aXLFBMIH2raIciJfUz4hdYj2odLFxvw2t_r5ocXvuu8KcVU2DETpIgXMciipKY0OfylEFyHv0MHUg1UI0zGsV3Pn9At0052vfi4Ns7';
+                $this->sendPushNotification(env('APP_NAME'), $request->message, $ftoken);
+        }
 
         return ok('store message successfully.!', $data);
     }

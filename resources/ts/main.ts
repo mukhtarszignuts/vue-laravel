@@ -13,6 +13,7 @@ import VueCryptojs from 'vue-cryptojs'
 import Vue3Toasity, { type ToastContainerOptions } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { createHead } from '@vueuse/head';
+import { initializeMessageListener } from "@/firebase/index"
 
 const toastConfig = {
     autoClose: 2000,
@@ -26,7 +27,7 @@ const toastConfig = {
 
 loadFonts()
 
-
+initializeMessageListener()
 
 // Create vue app
 const app = createApp(App)

@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import type { ChatContact as TypeChatContact } from "@/@fake-db/types";
+import { messaging } from "@/firebase/index";
 import ChatActiveChatUserProfileSidebarContent from "@/pages/chat/ChatActiveChatUserProfileSidebarContent.vue";
 import ChatLeftSidebarContent from "@/pages/chat/ChatLeftSidebarContent.vue";
 import ChatLog from "@/pages/chat/ChatLog.vue";
 import ChatUserProfileSidebarContent from "@/pages/chat/ChatUserProfileSidebarContent.vue";
 import { useChat } from "@/pages/chat/useChat";
 import { useChatStore } from "@/pages/chat/useChatStore";
+import axios from "@/plugins/axios";
 import vuetifyInitialThemes from "@/plugins/vuetify/theme";
 import { useResponsiveLeftSidebar } from "@core/composable/useResponsiveSidebar";
 import { avatarText } from "@core/utils/formatters";
-import axios from "axios";
+import { getToken } from "firebase/messaging";
 import { PerfectScrollbar } from "vue3-perfect-scrollbar";
 import { useDisplay, useTheme } from "vuetify";
 
@@ -32,6 +34,9 @@ const scrollToBottomInChatLog = () => {
 
 // Search query
 const q = ref("");
+
+const token = ref<any>(null);
+const error = ref<any>(null);
 
 watch(q, (val) => store.fetchChatsAndContacts(val), { immediate: true });
 
@@ -114,13 +119,52 @@ const handleMoreAction = (item: any) => {
   console.log("item", item);
   if (item.value == "Clear Chat") {
     console.log("current chat account", store.activeChat);
-    chatClear(store.activeChat?.chat?.id)
+    chatClear(store.activeChat?.chat?.id);
   }
 };
 
 const chatClear = async (id: any) => {
-  const data = await store.chatClear(id)
+  const data = await store.chatClear(id);
 };
+
+const getDeviceToken = async () => {
+      try {
+        // Request notification permission
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          console.log("Notification permission granted.");
+
+          // Get FCM token
+          const vapidKey = import.meta.env.VITE_VAPID_KEY;
+          const currentToken = await getToken(messaging, { vapidKey });
+
+          if (currentToken) {
+            console.log("currentToken: ", currentToken);
+            try {
+              // Send token to server
+              const result = await axios.post("/user/token-save", { token: currentToken });
+              console.log("Token saved successfully.", result);
+              token.value = currentToken;
+            } catch (err) {
+              console.error("Error saving token:", err);
+              error.value = "Error saving token";
+            }
+          } else {
+            console.log("No registration token available. Request permission to generate one.");
+          }
+        } else {
+          console.log("Notification permission denied.");
+        }
+      } catch (err) {
+        console.error("An error occurred while retrieving token:", err);
+        error.value = "An error occurred while retrieving token";
+      }
+    };
+
+onMounted(async () => {
+  console.log("load chat");
+  getDeviceToken();
+});
 </script>
 
 <template>
@@ -249,6 +293,9 @@ const chatClear = async (id: any) => {
             <IconBtn>
               <VIcon icon="tabler-search" />
             </IconBtn>
+            <!-- <IconBtn>
+             <v-btn color="success" @click="getDeviceToken">Allow</v-btn>
+            </IconBtn> -->
           </div>
 
           <MoreBtn
